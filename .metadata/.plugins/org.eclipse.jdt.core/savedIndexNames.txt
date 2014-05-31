@@ -1,0 +1,7 @@
+INDEX VERSION 1.126+/home/pete/repositories/cosmic-hackathon/.metadata/.plugins/org.eclipse.jdt.core
+3023260204.index
+1865857368.index
+1847947036.index
+1270315800.index
+3335219650.index
+4165762723.index
