@@ -1,17 +1,18 @@
 package cosmic.hackathon.models;
 
+import android.graphics.drawable.Drawable;
 import cosmic.hackathon.images.ColourDetector;
 import cosmic.hackathon.images.Colours;
 
 public class AnswerCard {
 
 	private String name;
-	private String imageResourceName;
+	private int imageResourceId;
 	private Colours colour;
 	
-	public AnswerCard(String name, String imageResourceName, Colours colour) {
+	public AnswerCard(String name, int imageResourceId, Colours colour) {
 		this.name = name;
-		this.imageResourceName = imageResourceName;
+		this.imageResourceId = imageResourceId;
 		this.colour = colour;
 	}
 	
@@ -19,8 +20,8 @@ public class AnswerCard {
 		return name;
 	}
 	
-	public String getImageResourceName() {
-		return imageResourceName;
+	public int getImageResourceId() {
+		return imageResourceId;
 	}
 	
 	public Colours getColour() {
