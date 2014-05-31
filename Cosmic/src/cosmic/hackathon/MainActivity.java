@@ -57,7 +57,9 @@ public class MainActivity extends ActionBarActivity {
 	private static boolean hasRetaken = false;
 	
 	private void nextQuestion() {
-	    // TODO
+        Intent i = new Intent(MainActivity.this, FinishActivity.class);
+        startActivity(i);
+        finish();
 	}
 	
 	private void captureImage() {
@@ -145,13 +147,15 @@ public class MainActivity extends ActionBarActivity {
     			view1.setVisibility(View.VISIBLE);
     			view2.setVisibility(View.VISIBLE);
 
-                previewCapturedImage(bitmap);
+                // previewCapturedImage(bitmap);
     
     			int[] pixels = getBitmapPixels(bitmap);
     			int cardResource = questionaire.getNextQuestion().getChosenAnswerImage(pixels);
     			
+    			Log.d(TAG, "found card: " + cardResource);
     			if (cardResource != 0) {
     			    chosenCardImage.setImageResource(cardResource);
+    			    chosenCardImage.setVisibility(View.VISIBLE);
     			}
 		    } else {
 		        Toast.makeText(getApplicationContext(), "Failed to get image URI", Toast.LENGTH_SHORT).show();
