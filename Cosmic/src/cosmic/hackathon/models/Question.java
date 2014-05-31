@@ -19,4 +19,14 @@ public class Question {
 	public Collection<AnswerCard> getApplicableAnswerCards() {
 		return applicableAnswerCards;
 	}
+	
+	public int getChosenAnswerImage(int[] pixels) {
+	    for(AnswerCard answerCard : applicableAnswerCards) {
+	        if(answerCard.isAPictureOfThisCard(pixels)) {
+	            return answerCard.getImageResourceId();
+	        }
+	    }
+	    
+	    return 0;
+	}
 }

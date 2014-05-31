@@ -8,6 +8,7 @@ import java.util.Locale;
 
 import cosmic.hackathon.images.ColourDetector;
 import cosmic.hackathon.images.Colours;
+import cosmic.hackathon.models.Questionaire;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -23,8 +24,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity {
@@ -34,11 +38,27 @@ public class MainActivity extends ActionBarActivity {
 	private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
 	private static final int MEDIA_TYPE_IMAGE = 1;
 
+	private static final Questionaire questionaire = new Questionaire();
+
+	private TextView questionTitle;
+	private TextView chosenCardText;
+	private ImageView chosenCardImage;
 	private ImageView imgPreview;
-	private Button btnCapturePicture;
+	private ImageView questionImage;
+	private Button retakePhotoButton;
+	private Button nextQuestionButton;
+	private View view1;
+	private View view2;
+	
 	private Uri fileUri;
 	
 	private static final String IMAGE_DIRECTORY_NAME = "Hello Camera";
+	
+	private static boolean hasRetaken = false;
+	
+	private void nextQuestion() {
+	    // TODO
+	}
 	
 	private void captureImage() {
 	    Log.d(TAG, "URI SET");
@@ -114,13 +134,25 @@ public class MainActivity extends ActionBarActivity {
     		    Toast.makeText(getApplicationContext(), "Image saved!", Toast.LENGTH_SHORT).show();
     
     		    Bitmap bitmap = getPhotoAsBitmap();
-    			previewCapturedImage(bitmap);
+    		    
+    		    // Set widgets
+    		    questionImage.setVisibility(View.GONE);
+    		    questionTitle.setText(questionaire.getNextQuestion().getQuestionText());
+    		    questionTitle.setVisibility(View.VISIBLE);
+    		    chosenCardText.setVisibility(View.VISIBLE);
+    			retakePhotoButton.setVisibility(View.VISIBLE);
+    			nextQuestionButton.setVisibility(View.VISIBLE);
+    			view1.setVisibility(View.VISIBLE);
+    			view2.setVisibility(View.VISIBLE);
+
+                previewCapturedImage(bitmap);
     
     			int[] pixels = getBitmapPixels(bitmap);
-    			Log.d(TAG, "pixels " + pixels);
-    			Colours color = ColourDetector.whatColourAmI(pixels);
+    			int cardResource = questionaire.getNextQuestion().getChosenAnswerImage(pixels);
     			
-    			Log.d(TAG, "I AM THE COLOR " + color);
+    			if (cardResource != 0) {
+    			    chosenCardImage.setImageResource(cardResource);
+    			}
 		    } else {
 		        Toast.makeText(getApplicationContext(), "Failed to get image URI", Toast.LENGTH_SHORT).show();
 		    }
@@ -134,17 +166,46 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        //Remove title bar
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        //Remove notification bar
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_main);
 
-        imgPreview = (ImageView) findViewById(R.id.imgPreview);
-        btnCapturePicture = (Button) findViewById(R.id.btnCapturePicture);
+        questionTitle = (TextView)findViewById(R.id.questionTitle);
+        chosenCardText = (TextView)findViewById(R.id.chosenCardText);
+        chosenCardImage = (ImageView)findViewById(R.id.chosenCardImage);
+        questionImage = (ImageView)findViewById(R.id.questionImage);
+        questionImage.setImageResource(R.drawable.question1);
+        imgPreview = (ImageView)findViewById(R.id.imgPreview);
+        retakePhotoButton = (Button)findViewById(R.id.retakePhotoButton);
+        nextQuestionButton = (Button)findViewById(R.id.nextQuestionButton);
+        view1 = (View)findViewById(R.id.view1);
+        view2 = (View)findViewById(R.id.view2);
  
-        btnCapturePicture.setOnClickListener(new View.OnClickListener() {
+        questionImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                captureImage();
+            }
+        });
+ 
+        retakePhotoButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				captureImage();
 			}
 		});
+		
+        nextQuestionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nextQuestion();
+            }
+        });		
     }
 
     @Override

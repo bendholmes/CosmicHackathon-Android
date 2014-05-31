@@ -14,41 +14,92 @@
         android:orientation="vertical" >
  
         <!-- Capture picture button -->
-        <Button
-            android:id="@+id/btnCapturePicture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Take a Picture"
-            android:layout_marginBottom="10dp"/>
  
         <!-- Record video button -->
-        <Button
-            android:id="@+id/btnRecordVideo"
+
+        <ImageView
+            android:id="@+id/questionImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Record a Video" />
-    </LinearLayout>
- 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="fill_parent"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:padding="10dp">
- 
+            android:src="@drawable/abc_ab_bottom_solid_dark_holo" />
+
         <TextView
-            android:layout_width="fill_parent"
+            android:id="@+id/questionTitle"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Preview"
-            android:padding="10dp"
-            android:textSize="15dp"/>
- 
-        <!-- To display picture taken -->
+            android:text="Question Title"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <android.support.v7.widget.Space
+            android:id="@+id/space1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <android.support.v7.widget.Space
+            android:id="@+id/space3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/chosenCardText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="You chose the answer card:"
+            android:visibility="gone" />
+
+        <View
+            android:id="@+id/view1"
+            android:layout_width="wrap_content"
+            android:layout_height="12dp"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/chosenCardImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/abc_spinner_ab_pressed_holo_light"
+            android:visibility="gone" />
+
         <ImageView
             android:id="@+id/imgPreview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="visible" />
+
+        <android.support.v7.widget.Space
+            android:id="@+id/space2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="wrap_content"
+            android:layout_height="12dp"
             android:visibility="gone" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/retakePhotoButton"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="Retake Picture"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/nextQuestionButton"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Next Question!"
+                android:visibility="gone" />
+
+        </LinearLayout>
 
     </LinearLayout>
  
