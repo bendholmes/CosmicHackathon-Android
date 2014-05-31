@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import cosmic.hackathon.images.ColourDetector;
+import cosmic.hackathon.images.Colours;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -108,13 +110,20 @@ public class MainActivity extends ActionBarActivity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == RESULT_OK) {
-		    Toast.makeText(getApplicationContext(), "Image saved!", Toast.LENGTH_SHORT).show();
-
-		    Bitmap bitmap = getPhotoAsBitmap();
-			previewCapturedImage(bitmap);
-
-			int[] pixels = getBitmapPixels(bitmap);
-			Log.d(TAG, "pixels: " + pixels.toString());
+		    if (fileUri != null) {
+    		    Toast.makeText(getApplicationContext(), "Image saved!", Toast.LENGTH_SHORT).show();
+    
+    		    Bitmap bitmap = getPhotoAsBitmap();
+    			previewCapturedImage(bitmap);
+    
+    			int[] pixels = getBitmapPixels(bitmap);
+    			Log.d(TAG, "pixels " + pixels);
+    			Colours color = ColourDetector.whatColourAmI(pixels);
+    			
+    			Log.d(TAG, "I AM THE COLOR " + color);
+		    } else {
+		        Toast.makeText(getApplicationContext(), "Failed to get image URI", Toast.LENGTH_SHORT).show();
+		    }
 		} else if (resultCode == RESULT_CANCELED) {
 			Toast.makeText(getApplicationContext(), "User cancelled image capture", Toast.LENGTH_SHORT).show();
 		} else {
@@ -173,4 +182,19 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (fileUri != null) {
+            outState.putString("fileUri", fileUri.toString());
+        }
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState.containsKey("fileUri")) {
+            fileUri = Uri.parse(savedInstanceState.getString("fileUri"));
+        }
+    }
 }
